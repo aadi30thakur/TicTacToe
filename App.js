@@ -44,7 +44,7 @@ const App = () => {
     }
     /* --------------------------------- column --------------------------------- */
     for (let i = 0; i < 3; i++) {
-      sum = arr[0][1] + arr[1][i] + arr[2][i];
+      sum = arr[0][i] + arr[1][i] + arr[2][i];
       if (sum === 3) {
         return 1;
       }
@@ -122,6 +122,11 @@ const App = () => {
 
     var win = winner();
     if (win == 1 || win == -1) {
+      if (win == -1) {
+        win = "O";
+      } else {
+        win = "X";
+      }
       Alert.alert("winner", `player ${win} won the game`, [
         {
           text: "OK",
