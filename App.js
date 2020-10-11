@@ -6,6 +6,8 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  Alert,
+  Button,
 } from "react-native";
 const circle = require("./assets/circle.png");
 const App = () => {
@@ -20,8 +22,6 @@ const App = () => {
     initialize();
   }, []);
 
-  /* ----------------------------- initialize game ---------------------------- */
-
   const initialize = () => {
     setGame([
       [0, 0, 0],
@@ -29,6 +29,45 @@ const App = () => {
       [0, 0, 0],
     ]);
     setPlayer(1);
+  };
+  const winner = () => {
+    const arr = game;
+    var sum = 0;
+    for (let i = 0; i < 3; i++) {
+      sum = arr[i][0] + arr[i][1] + arr[i][2];
+      if (sum === 3) {
+        return 1;
+      }
+      if (sum === -3) {
+        return -1;
+      }
+    }
+    /* --------------------------------- column --------------------------------- */
+    for (let i = 0; i < 3; i++) {
+      sum = arr[0][1] + arr[1][i] + arr[2][i];
+      if (sum === 3) {
+        return 1;
+      }
+      if (sum === -3) {
+        return -1;
+      }
+    }
+    /* --------------------------------- dignals -------------------------------- */
+    sum = arr[0][0] + arr[1][1] + arr[2][2];
+    if (sum === 3) {
+      return 1;
+    }
+    if (sum === -3) {
+      return -1;
+    }
+    sum = arr[2][0] + arr[1][1] + arr[0][2];
+    if (sum === 3) {
+      return 1;
+    }
+    if (sum === -3) {
+      return -1;
+    }
+    return 0;
   };
 
   const checkimage = (row, col) => {
@@ -45,7 +84,7 @@ const App = () => {
             }}
           />
         );
-      case -11:
+      case -1:
         return (
           <Image
             source={{
@@ -70,11 +109,39 @@ const App = () => {
   };
 
   const onPressUpdate = (row, col) => {
+    var val = game[row][col];
+    if (val != 0) {
+      return;
+    }
     var crplr = player;
     var game1 = game;
     game1[row][col] = crplr;
     console.table(game1);
     setGame({ ...game1 });
+    var newPayer = crplr === 1 ? -1 : 1;
+    setPlayer(newPayer);
+
+    var win = winner();
+    if (win == 1 || win == -1) {
+      console.log(win);
+
+      Alert.alert("winner", `player ${win} won the game`, [
+        {
+          text: "OK",
+          onPress: () => {
+            initialize();
+          },
+        },
+      ]);
+    } else
+      Alert.alert("Draw", `the game has be drawn!`, [
+        {
+          text: "OK",
+          onPress: () => {
+            initialize();
+          },
+        },
+      ]);
   };
 
   return (
@@ -115,6 +182,14 @@ const App = () => {
           {checkimage(2, 2)}
         </TouchableOpacity>
       </View>
+      <TouchableOpacity>
+        <Button
+          title="new game"
+          onPress={() => {
+            initialize();
+          }}
+        ></Button>
+      </TouchableOpacity>
     </View>
   );
 };
