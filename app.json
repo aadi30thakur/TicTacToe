@@ -23,6 +23,9 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "Come on lets play TicTacToe",
-    "githubUrl": "https://github.com/aadi30thakur/TicTacToe"
+    "githubUrl": "https://github.com/aadi30thakur/TicTacToe",
+    "android": {
+      "package": "com.aadi89880.TicTacToe"
+    }
   }
 }

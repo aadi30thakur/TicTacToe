@@ -116,15 +116,12 @@ const App = () => {
     var crplr = player;
     var game1 = game;
     game1[row][col] = crplr;
-    console.table(game1);
     setGame({ ...game1 });
     var newPayer = crplr === 1 ? -1 : 1;
     setPlayer(newPayer);
 
     var win = winner();
     if (win == 1 || win == -1) {
-      console.log(win);
-
       Alert.alert("winner", `player ${win} won the game`, [
         {
           text: "OK",
@@ -133,15 +130,7 @@ const App = () => {
           },
         },
       ]);
-    } else
-      Alert.alert("Draw", `the game has be drawn!`, [
-        {
-          text: "OK",
-          onPress: () => {
-            initialize();
-          },
-        },
-      ]);
+    }
   };
 
   return (
